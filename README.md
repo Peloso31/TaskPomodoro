@@ -21,7 +21,7 @@ Sistema de gerenciamento de tarefas com técnica Pomodoro, feito em ASP.NET Core
 - [x] Timer Pomodoro com modos (25/5/15)
 - [x] Histórico de sessões
       
- ## Projeto divido em fases.
+ ## Projeto divido em fases
  
 1. Back-end (API RESTful)
 2. Front-end (React)
