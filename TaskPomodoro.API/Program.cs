@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using TaskPomodoro.API.Data;
+using AutoMapper;
+using TaskPomodoro.API.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(TarefaProfile)); // Adiciona o AutoMapper e registra o perfil
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
