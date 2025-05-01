@@ -9,5 +9,6 @@ namespace TaskPomodoro.API.Data
             : base(options) { }
 
         public DbSet<Tarefa> Tarefas { get; set; }
+        public DbSet<SessaoPomodoro> SessoesPomodoro { get; set; }
     }
 }

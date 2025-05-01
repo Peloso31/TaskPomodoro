@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskPomodoro.API.Data;
 using TaskPomodoro.API.Models;
+using TaskPomodoro.API.DTOs;
+using AutoMapper;
 
 namespace TaskPomodoro.API.Controllers
 {
@@ -13,10 +15,11 @@ namespace TaskPomodoro.API.Controllers
     {
         // Injeção do DbContext (banco de dados)
         private readonly AppDbContext _context;
-
-        public TarefaController(AppDbContext context)
+        private readonly IMapper _mapper; // Injeção do AutoMapper para mapeamento de DTOs
+        public TarefaController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: /api/tarefa
@@ -41,13 +44,17 @@ namespace TaskPomodoro.API.Controllers
 
         // POST: /api/tarefa
         [HttpPost]
-        public ActionResult<Tarefa> Create(Tarefa tarefa)
+        public ActionResult<Tarefa> Create(TarefaCreateDTO tarefaCreateDTO)
         {
+            var tarefa = _mapper.Map<Tarefa>(tarefaCreateDTO); // mapeia o DTO para a entidade Tarefa
+
             _context.Tarefas.Add(tarefa); // adiciona no banco
             _context.SaveChanges();       // salva as mudanças
 
+            var tarefaReadDTO = _mapper.Map<TarefaReadDTO>(tarefa); // mapeia para o DTO
+
             // retorna 201 Created com a URL para buscar esse recurso
-            return CreatedAtAction(nameof(GetById), new { id = tarefa.Id }, tarefa);
+            return CreatedAtAction(nameof(GetById), new { id = tarefa.Id }, tarefaReadDTO);
         }
 
         // PUT: /api/tarefa/{id}
